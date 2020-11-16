@@ -1,7 +1,6 @@
 ---
 title: "My Experience Getting Confluent Certification for Apache Kafka [CCDAK]"
 date: 2020-11-16T11:53:34+11:00
-draft: true
 ---
 ![Success](success.jpg)
 
