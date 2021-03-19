@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: insignificantbit.com
+Token: ff42a76de54daf0f02eb46a0374689fe56e27db8476dde3f7a954522fcd82026
