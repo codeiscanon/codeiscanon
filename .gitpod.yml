@@ -2,4 +2,4 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - command: hugo serve
+  - command: hugo serve -b https://1313-violet-beaver-hcorfqcd.ws-us03.gitpod.io --appendPort false
