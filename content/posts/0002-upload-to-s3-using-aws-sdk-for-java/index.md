@@ -124,30 +124,17 @@ The simplest way to upload to s3 is to use the putObject method
       return headObjectResponse.contentLength();
     }
 
-This method creates N objects and then serialises them into a json array. This final output is then sent to S3 putObject. We then query the size of the uploaded object and return it. While this is a simple technique the downsides are quite obvious. We are limited by the size of available heap size. We are also very likely to hit OOMs for large files.
+This method creates N objects and then serialises them into a json array. This final output is then sent to S3 putObject. We then query the size of the uploaded object and return it. This step isn't necessary but I'm using it as a verification. While this is a simple technique the downsides are quite obvious. We are limited by the size of available heap size and certain to hit OOMs for large files.
 
 
 S3 upload with an intermediary file
 ====================
 
-Since the SDK supports uploading from a file, we can always use an intermediary file between the data generation and file upload. However this only solves the memory problem to some extent. The total time increases because we are now additionally writing to a file and then reading from the file before uploading to s3. However this could be a quick solution if you have access to enough disk space. This however is not ideal when running on lambda's or Kubernetes or if you want to optimise for time.
-With this change I was able to upload larger files to Localstack, however localstack seems to have a bug or limitation of around 320MB per single upload request. With AWS I was able to upload XXX MB file in XX Minutes XX Seconds. 
-The reason we see this improvement is only because we have now separated the steps where there are a lot of objects in memory and when we load the entire contents of the file in memory. Giving the JVM some time to garbage collect. However this comes at the cost of Slower over all performance. 
-There are only a few minor tweaks we need to do to make the simple Upload use an intermediary file. Assuming the data is written to disk with the same filename.
+Since the SDK supports uploading from a file, we can always use an intermediary file between the data generation and file upload. This solves the memory problem to some extent. The total time increases because we are now additionally writing to a file and then reading from the file before uploading to s3. However this could be a quick solution if you have access to enough disk space. This however is not ideal when running on lambda's or Kubernetes or if you want to optimise for time.
+With this change I was able to upload larger files to Localstack without hitting Out of Memory Errors. 
 
-    public Long simpleFileUploadWithFile(String key) throws IOException {
-      PutObjectResponse putObjectResponse = s3Client.putObject(PutObjectRequest.builder()
-          .key(key)
-          .bucket(bucketName)
-          .build(), Paths.get(key));
-  
-      HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
-          .bucket(bucketName)
-          .key(key)
-          .build());
-      return headObjectResponse.contentLength();
-  
-    }
+The reason we see this improvement is only because we have now separated the steps where there are a lot of objects in memory and when we load the entire contents of the file in memory. Giving the JVM some time to garbage collect. However this comes at the cost of Slower over all performance. 
+There are only a few minor tweaks we need to do to make the simple Upload use an intermediary file. 
 
 By writing each line into the file we never use more memory than there is available.
 
@@ -168,11 +155,40 @@ By writing each line into the file we never use more memory than there is availa
 
     jGenerator.writeEndArray();
 
-While this ensures that we will not encounter an OOM, it introduces unnecessary steps of file writes and reads.  
+Then we use the sdk to upload the file to s3. 
+
+    public Long simpleFileUploadWithFile(String key) throws IOException {
+      PutObjectResponse putObjectResponse = s3Client.putObject(PutObjectRequest.builder()
+          .key(key)
+          .bucket(bucketName)
+          .build(), Paths.get(key));
+  
+      HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
+          .bucket(bucketName)
+          .key(key)
+          .build());
+      return headObjectResponse.contentLength();
+  
+    }
+
+
+
+While this ensures that we will not encounter an OOM, it introduces unnecessary steps of file writes and reads.
 
 Conclusion
 ====================
 
+
+
+| File Size| Simple Upload | File Upload  |
+| ---------|:-------------:| ------------:|
+| 100kb    | 78   ms       | 113   ms     |
+| 1mb      | 165  ms       | 174   ms     |
+| 10mb     | 658  ms       | 733   ms     |
+| 100mb    | 8.5  s        | 5.4   s      |
+| 500mb    | OOM           | 28.46 s      |
+| 1gb      | OOM           | 55.18 s      |
+| 2gb      | OOM           | 1m 58 s      |
 
 
 Next Steps
