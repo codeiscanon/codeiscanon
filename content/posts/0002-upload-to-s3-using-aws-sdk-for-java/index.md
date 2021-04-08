@@ -178,7 +178,9 @@ While this ensures that we will not encounter an OOM, it introduces unnecessary 
 Conclusion
 ====================
 
+While localstack is really good for developing and basic validation of your code flow. Anything beyond a few megabytes starts getting slow to test and doesn't reflect how the aws will behave in terms of performance. I Ran both simple and file backed uploads from a single [t3 medium](https://aws.amazon.com/ec2/instance-types/t3/) instance and got the average of multiple iterations. 
 
+Its quite clear that the File based uploads surpass simple uploads. 
 
 | File Size| Simple Upload | File Upload  |
 | ---------|:-------------:| ------------:|
