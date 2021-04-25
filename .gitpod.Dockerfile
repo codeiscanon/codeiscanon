@@ -5,4 +5,6 @@ FROM gitpod/workspace-full
 # RUN brew install bastet
 #
 # More information: https://www.gitpod.io/docs/config-docker/
+Run brew update
+RUN brew upgrade
 RUN brew install hugo
