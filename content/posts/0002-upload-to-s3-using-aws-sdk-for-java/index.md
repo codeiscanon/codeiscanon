@@ -1,6 +1,6 @@
 ---
 title: "Upload to S3 using AWS SDK for Java"
-date: 2021-04-01T15:29:31+10:00
+date: 2021-04-25T15:29:31+10:00
 url: upload-to-s3-using-aws-sdk-for-java
 ---
 ![Graph showing performance of simple S3 upload types](s3-upload-simple-types.gif)
