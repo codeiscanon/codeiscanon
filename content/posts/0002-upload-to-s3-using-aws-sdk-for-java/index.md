@@ -3,7 +3,7 @@ title: "Upload to S3 using AWS SDK for Java"
 date: 2021-04-01T15:29:31+10:00
 url: upload-to-s3-using-aws-sdk-for-java
 ---
-![AWS S3](aws-s3.svg)
+![Graph showing performance of simple S3 upload types](s3-upload-simple-types.gif)
 
 Introduction
 ====================
@@ -15,187 +15,179 @@ S3 localstack configurations
 
 ![Localstack](localstack.png)
 
-Localstack is most certainly my favourite tool for working with AWS locally. It provides a test framework for developing against AWS. Setting up Localstack for basic scenarios is easy enough using docker-compose. Stay tuned for a future post on an advanced setup post. However, on the application side we have to ensure that the S3Client is initialised correctly to work with Localstack.
+Localstack is the best tool for working with AWS locally. It provides a local test framework for developing against AWS. In my experience using actual AWS resources for local development is hard to maintain and work with, due to permission issues, costs and the need to be connected to AWS all the time. Using Localstack provides a good dev experience both during onboarding and day-to-day work. 
 
+Setting up Localstack for basic scenarios is straightforward using docker-compose. Stay tuned for a future post on an advanced setup. However, on the application side, we have to ensure that the S3Client is initialised correctly to work with Localstack. As would be expected the SDK by default connects to AWS while we would want it to connect to Localstack on localhost:4567 instead when developing locally.
 > LocalstackConfiguration.java
+```java
+@Profile("!dev")
+@Configuration
+public class LocalstackConfiguration {
 
-    @Profile("!dev")
-    @Configuration
-    public class LocalstackConfiguration {
+  @Value("${cloud.aws.region.static}")
+  private String region;
+  @Value("${cloud.aws.s3.endpoint:#{null}}")
+  private String endpoint;
+  @Value("${cloud.aws.credentials.accessKey}")
+  private String accessKey;
+  @Value("${cloud.aws.credentials.secretKey}")
+  private String secretKey;
 
-      @Value("${cloud.aws.region.static}")
-      private String region;
-      @Value("${cloud.aws.s3.endpoint:#{null}}")
-      private String endpoint;
-      @Value("${cloud.aws.credentials.accessKey}")
-      private String accessKey;
-      @Value("${cloud.aws.credentials.secretKey}")
-      private String secretKey;
-
-      @Bean
-      public S3Client s3Client() {
-        final AwsCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
-        AwsCredentialsProvider credentialsProvider = StaticCredentialsProvider.create(credentials);
-        return S3Client.builder()
-            .region(Region.of(region)).credentialsProvider(credentialsProvider)
-            .serviceConfiguration(S3Configuration.builder()
-                .pathStyleAccessEnabled(true).build())
-            .endpointOverride(URI.create(endpoint)).build();
-      }
-    }
-
+  @Bean
+  public S3Client s3Client() {
+    final AwsCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
+    AwsCredentialsProvider credentialsProvider = StaticCredentialsProvider.create(credentials);
+    return S3Client.builder()
+        .region(Region.of(region)).credentialsProvider(credentialsProvider)
+        .serviceConfiguration(S3Configuration.builder()
+            .pathStyleAccessEnabled(true).build())
+        .endpointOverride(URI.create(endpoint)).build();
+  }
+}
+```
 > application.yml
+```yaml
+cloud:
+  aws:
+    credentials:
+      accessKey: test
+      secretKey: test
+    region:
+      static: us-east-1
+    s3:
+      endpoint: http://localhost:4566
+```
 
-    cloud:
-        aws:
-            credentials:
-            accessKey: test
-            secretKey: test
-            region:
-            static: us-east-1
-            s3:
-            endpoint: http://localhost:4566
+Here I have overridden the endpoint of the S3 client, to point to Localstack instead of AWS. `accessKey` & `secretKey` can be of any value but must be set. The region must be consistent across all your applications but can be any valid AWS region.
 
-This allows us to override the endpoint the S3 client uses to now point to Localstack. accessKey & secretKey can be anything but must be set. 
-The region must be consistent across all your applications but can be any valid region.
-
-    .pathStyleAccessEnabled(true)
-
-S3 uses a DNS style access to buckets on AWS, such that the sdk uses `bucket-name.s3.amazonaws.com/` to perform s3 operations, on localstack this would translate to `bucket-name.localstack`. However that is not a valid hostname on your local machine. So we switch to an older behaviour where the access pattern is based on paths like `s3.amazonaws.com/bucket-name` and it translates really well to `localstack/bucket-name`.
+`.pathStyleAccessEnabled(true)` is an additional configuration we have to set for Localstack only as the SDK uses a DNS style access to buckets on AWS, e.g `bucket-name.s3.amazonaws.com`. This would however translate to bucket-name.localstack on your local machine. Since this is not a valid hostname, we switch to an older behaviour where the access pattern is based on paths like `s3.amazonaws.com/bucket-name` and it translates really well to `localstack/bucket-name`.
 
 Data generation
 ====================
 
 ![Data Generation](data-generation.jpeg)
+>SampleData.java
+```java
+@Data
+public class SampleData {
 
-While most S3 uploads and download operations can be performed from and to Disk, I am going to focus on data generated by code and uploaded to S3. To achieve this data generation for testing I have used a library called EasyRandom which creates objects from a given class using random values for the fields. 
+  private UUID uuid;
+  private String string;
+  private Integer integer;
+  private Long long_;
+  private BigDecimal bigDecimal;
+  private Boolean aBoolean;
 
-For example for the class
+}
+```
 
-> SampleData.java
+While most S3 upload and download operations can be performed from and to disk, I am interested in the flow that includes the data generated by code. To achieve this, I have used a library called [EasyRandom](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Fj-easy%2Feasy-random), which creates objects from a given class using random values for the fields.
+>sampledata.json
 
-    @Data
-    public class SampleData {
-    
-      private UUID uuid;
-      private String string;
-      private Integer integer;
-      private Long long_;
-      private BigDecimal bigDecimal;
-      private Boolean aBoolean;
-    
-    }
+```json
+{
+   "uuid":"ae162e4f-e2c9-3c98-8807-78ff6dfe58e8",
+   "string":"GQpz",
+   "integer":-83529235,
+   "long_":2137344153351374497,
+       "bigDecimal":0.11586566171997125795911642853752709925174713134765625,
+   "aboolean":true
+}
+```
 
-Will generate
-
-    {
-        "uuid":"ae162e4f-e2c9-3c98-8807-78ff6dfe58e8",
-        "string":"GQpz",
-        "integer":-83529235,
-        "long_":2137344153351374497,
-        "bigDecimal":0.11586566171997125795911642853752709925174713134765625,
-        "aboolean":true
-    }
-
-by simply calling the method
-
-    new EasyRandom().nextObject(SampleData.class)
+This is an example of data generated by simply calling the method `new EasyRandom().nextObject(SampleData.class)`.
 
 Simple S3 upload
 ====================
 
 The simplest way to upload to s3 is to use the putObject method
 
-    public Long simpleFileUpload(String key, Integer count) throws JsonProcessingException {
-      Stream<SampleData> sampleDataStream = generator.objects(SampleData.class, count);
-      String sampleDataJson = objectMapper.writeValueAsString(sampleDataStream.collect(
-          Collectors.toList()));
-      RequestBody requestBody = RequestBody
-          .fromBytes(sampleDataJson.getBytes());
-  
-      s3Client.putObject(PutObjectRequest.builder()
-          .key(key)
-          .bucket(bucketName)
-          .build(), requestBody);
-      HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
-          .bucket(bucketName)
-          .key(key)
-          .build());
-      return headObjectResponse.contentLength();
-    }
+```java
+public Long simpleFileUpload(String key, Integer count) throws JsonProcessingException {
+  Stream<SampleData> sampleDataStream = generator.objects(SampleData.class, count);
+  String sampleDataJson = objectMapper.writeValueAsString(sampleDataStream.collect(
+      Collectors.toList()));
+  RequestBody requestBody = RequestBody
+      .fromBytes(sampleDataJson.getBytes());
 
-This method creates N objects and then serialises them into a json array. This final output is then sent to S3 putObject. We then query the size of the uploaded object and return it. This step isn't necessary but I'm using it as a verification. While this is a simple technique the downsides are quite obvious. We are limited by the size of available heap size and certain to hit OOMs for large files.
+  s3Client.putObject(PutObjectRequest.builder()
+      .key(key)
+      .bucket(bucketName)
+      .build(), requestBody);
+  HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
+      .bucket(bucketName)
+      .key(key)
+      .build());
+  return headObjectResponse.contentLength();
+}
+```
+
+This method creates N objects and then serialises them into a JSON array. This final output is then sent to S3 putObject. I then query the size of the uploaded object and return it. This step isn't necessary but I'm using it as verification. While this is a simple technique the downsides are that we are limited by the size of available heap size and certain to hit Out of Memory (OOM) Exception for large files.
 
 
 S3 upload with an intermediary file
 ====================
 
-Since the SDK supports uploading from a file, we can always use an intermediary file between the data generation and file upload. This solves the memory problem to some extent. The total time increases because we are now additionally writing to a file and then reading from the file before uploading to s3. However this could be a quick solution if you have access to enough disk space. This however is not ideal when running on lambda's or Kubernetes or if you want to optimise for time.
-With this change I was able to upload larger files to Localstack without hitting Out of Memory Errors. 
-
-The reason we see this improvement is only because we have now separated the steps where there are a lot of objects in memory and when we load the entire contents of the file in memory. Giving the JVM some time to garbage collect. However this comes at the cost of Slower over all performance. 
-There are only a few minor tweaks we need to do to make the simple Upload use an intermediary file. 
-
-By writing each line into the file we never use more memory than there is available.
-
-    JsonFactory jfactory = new JsonFactory();
-
-    JsonGenerator jGenerator = jfactory
-        .createGenerator(Paths.get("json.json").toFile(), JsonEncoding.UTF8);
-    jGenerator.setCodec(objectMapper);
-
-    jGenerator.writeStartArray();
-    sampleDataStream.forEach(pojo -> {
-      try {
-        jGenerator.writeObject(pojo);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    });
-
-    jGenerator.writeEndArray();
-
-Then we use the sdk to upload the file to s3. 
-
-    public Long simpleFileUploadWithFile(String key) throws IOException {
-      PutObjectResponse putObjectResponse = s3Client.putObject(PutObjectRequest.builder()
-          .key(key)
-          .bucket(bucketName)
-          .build(), Paths.get(key));
-  
-      HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
-          .bucket(bucketName)
-          .key(key)
-          .build());
-      return headObjectResponse.contentLength();
-  
-    }
+Since the SDK supports uploading from a file, we can always use an intermediary file between the data generation and file upload. This solves the memory problem to some extent. The total time increases because we are now additionally writing to a file and then reading from the file before uploading to S3. However, this could be a quick solution if you have access to enough disk space. This solution is not ideal when running on lambda or Kubernetes or if you want to optimise for time. With this change, I was able to upload larger files to Localstack without hitting the Out of Memory (OOM) Exception.
 
 
+```java
+Stream<SampleData> sampleDataStream = generator.objects(SampleData.class, count);
 
-While this ensures that we will not encounter an OOM, it introduces unnecessary steps of file writes and reads.
+JsonFactory jfactory = new JsonFactory();
+
+JsonGenerator jGenerator = jfactory
+    .createGenerator(Paths.get("temp.json").toFile(), JsonEncoding.UTF8);
+jGenerator.setCodec(objectMapper);
+
+jGenerator.writeStartArray();
+sampleDataStream.forEach(pojo -> {
+  try {
+    jGenerator.writeObject(pojo);
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+});
+```
+By writing each line into the file we never use more memory than is available.
+```java
+public Long simpleFileUploadWithFile(String key) {
+  PutObjectResponse putObjectResponse = s3Client.putObject(PutObjectRequest.builder()
+      .key(key)
+      .bucket(bucketName)
+      .build(), Paths.get(key));
+
+  HeadObjectResponse headObjectResponse = s3Client.headObject(HeadObjectRequest.builder()
+      .bucket(bucketName)
+      .key(key)
+      .build());
+  return headObjectResponse.contentLength();
+
+}
+```
+
+Then we use the SDK to upload the file to S3. While this ensures that we will not encounter an Out of Memory (OOM), it introduces unnecessary steps of file writes and reads.
 
 Conclusion
 ====================
 
-While localstack is really good for developing and basic validation of your code flow. Anything beyond a few megabytes starts getting slow to test and doesn't reflect how the aws will behave in terms of performance. I Ran both simple and file backed uploads from a single [t3 medium](https://aws.amazon.com/ec2/instance-types/t3/) instance and got the average of multiple iterations. 
-
-Its quite clear that the File based uploads surpass simple uploads. 
-
-| File Size| Simple Upload | File Upload  |
-| ---------|:-------------:| ------------:|
-| 100kb    | 78   ms       | 113   ms     |
-| 1mb      | 165  ms       | 174   ms     |
-| 10mb     | 658  ms       | 733   ms     |
-| 100mb    | 8.5  s        | 5.4   s      |
-| 500mb    | OOM           | 28.46 s      |
-| 1gb      | OOM           | 55.18 s      |
-| 2gb      | OOM           | 1m 58 s      |
+While Localstack is really good for developing and basic validation of your code flow. Anything beyond a few megabytes starts getting slow to test and doesn't reflect how AWS will behave in terms of performance. I ran both simple and file-backed uploads from a single [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) instance and here are the average response times of multiple iterations.
 
 
-Next Steps
-====================
+| File Size  | Simple Upload | File Upload |
+|:-----------|:--------------|:------------|
+| 100kb      | 78   ms       | 76    ms    |
+| 1mb        | 165  ms       | 140   ms    |
+| 10mb       | 658  ms       | 400   ms    |
+| 100mb      | 8.9  s        | 2     s     |
+| 500mb      | OOM           | 9     s     |
+| 1gb        | OOM           | 19    s     |
+| 2gb        | OOM           | 46    s     |
+| 5gb        | OOM           | S3Exception |  
 
-To efficiently upload files larger than 100mb we then try to use the Multi part upload feature provided in the SDK in the next Part. 
+It's quite clear that the File-based uploads surpass simple uploads, but even that falls short beyond 5GB of data. We encounter the exception -
+>`software.amazon.awssdk.services.s3.model.S3Exception: Your proposed upload exceeds the maximum allowed size (Service: S3, Status Code: 400, Request ID: 3CMX1G0GQ9338S7E`
 
-Have you used S3 or any alternatives? Please share in the comments about your experience.
+This is [well documented](https://medium.com/r/?url=https%3A%2F%2Fdocs.aws.amazon.com%2FAmazonS3%2Flatest%2Fuserguide%2Fupload-objects.html) and expected behaviour as AWS only supports a maximum of 5GB file uploads using `putObject`. The only solution beyond this is to use multipart uploads. 
+In the next blog in the series, I will demonstrate how to [efficiently upload files larger than 100MB using the Multipart upload](/multipart-upload-to-s3-using-aws-sdk-for-java) feature provided in the SDK.
+
