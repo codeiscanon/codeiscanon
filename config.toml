@@ -2,7 +2,7 @@ baseURL = "https://insignificantbit.com/"
 languageCode = "en-us"
 title = "Insignificant Bit"
 theme = "ananke"
-googleAnalytics = "G-BV6ZJ9DQ96"
+googleAnalytics = "UA-184602811-1"
 [sitemap]
   changefreq = "monthly"
   filename = "sitemap.xml"
