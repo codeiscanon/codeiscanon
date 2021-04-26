@@ -3,3 +3,7 @@ languageCode = "en-us"
 title = "Insignificant Bit"
 theme = "ananke"
 googleAnalytics = "G-BV6ZJ9DQ96"
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5
