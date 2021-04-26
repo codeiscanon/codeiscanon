@@ -3,7 +3,11 @@ languageCode = "en-us"
 title = "Insignificant Bit"
 theme = "ananke"
 googleAnalytics = "UA-184602811-1"
+
 [sitemap]
   changefreq = "monthly"
   filename = "sitemap.xml"
   priority = 0.5
+
+  [params]
+  favicon = "insignificantbit.svg"
