@@ -234,7 +234,7 @@ I was getting the following error before I sorted the parts and their correspond
 
 Because of the asynchronous nature of the parts being uploaded, it is possible for the part numbers to be out of order and AWS expects them to be in order. Sorting the parts solved this problem.
 
-With these changes, the total time for data generation and upload drops significantly. On instances with more resources, we could increase the thread pool size and get faster times. However, for our comparison, we have a clear winner. These results are from uploading various sized objects using a [t3.medium](https://medium.com/r/?url=https%3A%2F%2Faws.amazon.com%2Fec2%2Finstance-types%2Ft3%2F) AWS instance.
+With these changes, the total time for data generation and upload drops significantly. On instances with more resources, we could increase the thread pool size and get faster times. However, for our comparison, we have a clear winner. These results are from uploading various sized objects using a [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) AWS instance.
 
 ![Graph showing performance of simple and multipart S3 upload types](s3-upload-multipart.gif)
 
