@@ -1,7 +1,7 @@
 ---
-title: "How to upload to S3"
+title: "How to upload to AWS S3"
 date: 2021-04-25T15:29:31+10:00
-url: how-to-upload-to-s3
+url: how-to-upload-to-aws-s3
 aliases: [/upload-to-s3-using-aws-sdk-for-java]
 
 description: Uploading files to S3 using putObject from memory and file using Localstack and AWS. Multipart Upload and Async Multipart Upload in Part 2
@@ -197,4 +197,4 @@ In the next blog in the series, I will demonstrate how to efficiently upload fil
 
 ***
 
-Update: Part 2 is now up, feel free to continue reading this series at https://insignificantbit.com/multipart-upload-to-s3-using-aws-sdk-for-java/
+Update: Part 2 is now up, feel free to continue reading this series at [Insignificant Bit - How to multipart upload to S3](https://insignificantbit.com/multipart-upload-to-s3-using-aws-sdk-for-java/)
