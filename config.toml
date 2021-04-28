@@ -16,6 +16,7 @@ description = "Programming blog of learnings and experiences in Java, AWS and Ka
 read_more_copy = "Continue reading on insignificantbit.com"
 featured_image = "images/insignificantbit-featured.webp"
 images = ["images/insignificantbit-featured.webp"]
+title = "Insignificant Bit"
 
 [taxonomies]
 series = "series"
