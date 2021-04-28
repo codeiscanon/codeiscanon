@@ -17,13 +17,11 @@ Since then, I've used Kafka on two client projects and I have a working knowledg
 I'm sharing my experience of how I went about studying and getting the certification, it will vary for others with different circumstances.
 
 COVID-19
-====================
-
+---------------
 In Sydney, we have been extremely lucky to have COVID-19 under control and I have been working from home since the start of the pandemic. All Confluent training materials and certification are online so it hasn't really affected my experience beyond what COVID-19 has done to our daily lives.
 
 Studying
-====================
-
+---------------
 I had started off with the Udemy course to gain a basic understanding of Kafka and it definitely helped me understand the concepts and how Kafka is actually implemented in real-world projects. However when I wanted to take the certification, it had been a while since I had done the initial course and as Confluent Partners, DigIO had access to the Confluent training material. Rather than studying alone, we created a study group to keep us all accountable. This was the biggest factor in actually getting the certification as we would catch up every week and discuss our progress and challenges. Sometimes we even watched videos from the Kafka Summit together to share our experiences and learnings. 
 
 It was hard to finish the course material without investing a significant amount of dedicated time. Depending on the week, I sometimes made a lot of progress and other weeks, hardly any progress. Going too long with no progress also meant I had to backtrack a bit and revise previous material. As a group, we were moving slow and based on our speed, it seemed like we would not even finish the course material within 6 months. 
@@ -31,15 +29,13 @@ It was hard to finish the course material without investing a significant amount
 Luckily, I had a break between clients and decided to plan some study leave with DigIO. It was astonishing how effective focussed time is. I was able to finish the course material in two days as opposed to months I had been spending on and off in my free time.
 
 Practice Tests
-====================
-
+---------------
 When I had tried looking for Practice tests, I only found one course in Udemy which contained 3 practice tests. I was quite anxious to see where I was at after finishing the study material and quickly revised my notes before taking the Practice tests. The Practice tests were 50 questions and it took me 30 mins to finish the test. I was quite happy to have scored 74% and it made me feel very relieved. 
 
 After a short break and working on the questions I had got wrong in the first practice test, I gave the second and third test a go. While I passed all of them, there were questions in each test that I was quite unsure of as they caught me off guard. They were mostly just unique ways of asking concepts I knew but the way it was worded threw me off. Some of them were very specific configurations which I had not focussed on to remember them specifically. However, after some revision, I was ready to take the actual exam.
 
 Exam
-====================
-
+---------------
 I wanted to take the exam with a fresh and relaxed mind. It was quite amazing that I could book the proctored exam in less than 30 mins by paying $5 USD more. This option was really helpful as I was able to start the test when I was ready on the day instead of planning my day around the offered test times. So after my coffee, run and shower, I was ready and I booked the test. There were quite a few restrictions because it was an online proctored exam.
 
 > Alone in a room and please have a government-issued ID        
@@ -56,6 +52,5 @@ After the initial verification and instructions, the timer started and I had 70 
 The certificate was also in my [email](https://www.credential.net/ba4ca1dc-7c9e-4bb3-9e52-2f39247e7528) immediately. I was quite happy with the result. Kudos to Confluent & Examity for such a smooth exam experience.
 
 Conclusion
-====================
-
+---------------
 The certification personally felt significantly easy however I wish I had taken a mock test before starting to study to compare results. I was lucky to previously attain a working knowledge of Kafka and combined with the training courses offered by Confluent, was more than enough to get the certification. The practice tests were a good way to feel confident before the exam. I would love to know more about where you are in your journey with Kafka. Please comment below and share your goals & experiences. You can also find me on [Confluent Community Slack](https://confluentcommunity.slack.com/team/U017ADMAJPQ).
