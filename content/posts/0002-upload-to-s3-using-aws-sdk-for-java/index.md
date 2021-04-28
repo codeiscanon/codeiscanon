@@ -7,7 +7,7 @@ tags: [ "AWS", "S3", "Java", "Localstack", "Multipart" ]
 series: ["AWS S3 Upload"]
 featured_image: "/how-to-upload-to-aws-s3/how-to-upload-to-aws-s3-featured-image-plane.jpeg"
 omit_header_text: true
-description: Uploading files to S3 using putObject from memory and file using Localstack and AWS. Multipart Upload and Async Multipart Upload in Part 2
+description: Uploading files to S3 using putObject from memory and file using Localstack and AWS. Multipart upload and async multipart upload in Part 2
 ---
 
 I recently had to work with S3 & AWS Java SDK for a few different file operation scenarios. I was aware of a few different approaces and learnt a few more. Surprisingly there were actually more than one right ways of using the SDK. I'll be talking about the [AWS SDK for Java 2](https://github.com/aws/aws-sdk-java-v2) using Java 11.

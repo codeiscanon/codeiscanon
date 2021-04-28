@@ -2,15 +2,19 @@
 title: "Multipart Upload to S3 using AWS SDK for Java"
 date: 2021-04-26T11:37:31+10:00
 url: multipart-upload-to-s3-using-aws-sdk-for-java
----
-![Graph showing performance of simple and multipart S3 upload types](s3-upload-multipart.gif)
+author: Sougata Khan
+tags: [ "AWS", "S3", "Java", "Localstack", "Multipart" ]
+series: ["AWS S3 Upload"]
+featured_image: "/multipart-upload-to-s3-using-aws-sdk-for-java/multipart-upload-to-s3-using-aws-sdk-for-java-featured-image-parallel.jpeg"
+omit_header_text: true
+description: Uploading files to S3 using multipart upload and async multipart upload 
 
-Introduction
-====================
+---
+
 In a previous post, I  had explored [uploading files to S3](/upload-to-s3-using-aws-sdk-for-java) using `putObject` and its limitations. As recommended by AWS for any files larger than 100MB we should use multipart upload. There are a couple of ways to achieve this. I'll start with the simplest approach.
 
 S3 multipart upload
-====================
+---------------
 As the name suggests we can use the SDK to upload our object in parts instead of one big request. 
 
 The AWS APIs require a lot of redundant information to be sent with every request, so I wrote a small abstraction layer.
@@ -165,7 +169,7 @@ public class MultipartUploadHelper {
 I successfully uploaded a 1GB file and could continue with larger files using Localstack but it was extremely slow. I deployed the application to an EC2(Amazon Elastic Compute Cloud) Instance and continued testing larger files there. While Localstack is great for validating your code works it does have limitations in performance.
 
 S3 multipart upload with async
-====================
+---------------
 One inefficiency of the multipart upload process is that the data upload is synchronous. We should be able to upload the different parts of the data concurrently.
 
 ```java
@@ -236,7 +240,6 @@ Because of the asynchronous nature of the parts being uploaded, it is possible f
 
 With these changes, the total time for data generation and upload drops significantly. On instances with more resources, we could increase the thread pool size and get faster times. However, for our comparison, we have a clear winner. These results are from uploading various sized objects using a [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) AWS instance.
 
-![Graph showing performance of simple and multipart S3 upload types](s3-upload-multipart.gif)
 
 | File Size |  Simple  |  File     |   Multipart  | Async    |
 |:----------|:---------|:----------|:-------------|:---------|
@@ -254,8 +257,6 @@ With these changes, the total time for data generation and upload drops signific
 
 Beyond this point, the only way I could improve on the performance for individual uploads was to scale the EC2 instances vertically. I have chosen EC2 Instances with higher network capacities. So here I am going from 5 → 10 → 25 → 50 gigabit network. I could upload a 100GB file in less than 7mins. However, a more in-depth cost-benefit analysis needs to be done for real-world use cases as the bigger instances are significantly more expensive. For the larger instances, CPU and memory was barely being used, but this  was the smallest instance with a 50-gigabit network that was available on AWS `ap-southeast-2` (Sydney).
 
-![Graph showing performance of multipart S3 upload on various instance Types](s3-upload-instance-types.gif)
-
 
 |     Name     |  Memory   |  vCPUs   |  Network   | Cost hourly |
 |:-------------|:----------|:---------|:-----------|:------------|
@@ -266,8 +267,7 @@ Beyond this point, the only way I could improve on the performance for individua
 
 
 Conclusion
-====================
-
+---------------
 
 For all use cases of uploading files larger than 100MB, single or multiple,
 async multipart upload is by far the best approach in terms of efficiency and I would choose that by default. However, if the team is not familiar with async programming & AWS S3, then s3PutObject from a file is a good middle ground. 
