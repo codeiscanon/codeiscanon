@@ -15,7 +15,7 @@ I recently had to work with S3 & AWS Java SDK for a few different file operation
 S3 localstack configurations
 ---------------	
 
-![Localstack](localstack.png)
+![Localstack](how-to-upload-to-aws-s3-localstack.png)
 
 Localstack is the best tool for working with AWS locally. It provides a local test framework for developing against AWS. In my experience using actual AWS resources for local development is hard to maintain and work with, due to permission issues, costs and the need to be connected to AWS all the time. Using Localstack provides a good dev experience both during onboarding and day-to-day work. 
 
@@ -67,7 +67,7 @@ Here I have overridden the endpoint of the S3 client, to point to Localstack ins
 Data generation
 ---------------	
 
-![Data Generation](data-generation.jpeg)
+![How to Upload to AWS S3 Data Generation](how-to-upload-to-aws-s3-featured-image-rocket.jpeg)
 >SampleData.java
 ```java
 @Data
