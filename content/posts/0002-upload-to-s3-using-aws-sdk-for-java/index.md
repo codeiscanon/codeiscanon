@@ -67,7 +67,7 @@ Here I have overridden the endpoint of the S3 client, to point to Localstack ins
 Data generation
 ---------------	
 
-![How to Upload to AWS S3 Data Generation](how-to-upload-to-aws-s3-featured-image-rocket.jpeg)
+![How to Upload to AWS S3 Data Generation](how-to-upload-to-aws-s3-data-generation.jpeg)
 >SampleData.java
 ```java
 @Data
