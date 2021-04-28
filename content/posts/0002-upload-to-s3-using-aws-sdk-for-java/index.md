@@ -175,8 +175,6 @@ Conclusion
 
 While Localstack is really good for developing and basic validation of your code flow. Anything beyond a few megabytes starts getting slow to test and doesn't reflect how AWS will behave in terms of performance. I ran both simple and file-backed uploads from a single [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) instance and here are the average response times of multiple iterations.
 
-![How to upload to AWS S3 Comparison](./how-to-upload-to-aws-s3-comparison.gif)
-
 | File Size  | Simple Upload | File Upload |
 |:-----------|:--------------|:------------|
 | 100kb      | 78   ms       | 76    ms    |
