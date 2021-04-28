@@ -2,11 +2,13 @@
 title: "My Experience Getting Confluent Certification for Apache Kafka [CCDAK]"
 date: 2020-11-16T11:53:34+11:00
 url: my-experience-getting-confluent-certification-for-apache-kafka-ccdak
+author: Sougata Khan
+tags: [ "Kafka", "Confluent", "Certification", "CCDAK", "Apache" ]
+series: ["Certification"]
+featured_image: "/my-experience-getting-confluent-certification-for-apache-kafka-ccdak/my-experience-getting-confluent-certification-for-apache-kafka-ccdak-success.jpeg"
+omit_header_text: true
+description: Taking the Confluent Certification for Apache Kafka [CCDAK] during covid-19
 ---
-![Success](success.jpg)
-
-Introduction
-====================
 
 I have predominantly been a Java developer for over 10 years and worked with various message queuing technologies in recent years. I had the opportunity to get exposure to Kafka as one of our clients wanted to use Kafka in their Proof of Concept. While I had heard about Kafka for a long time, I never really understood its features and depth. Once I actually understood its power, I immediately saw how well it solved a host of challenges I had faced in my previous work where I had to work around them. 
 
@@ -28,9 +30,6 @@ It was hard to finish the course material without investing a significant amount
 
 Luckily, I had a break between clients and decided to plan some study leave with DigIO. It was astonishing how effective focussed time is. I was able to finish the course material in two days as opposed to months I had been spending on and off in my free time.
 
-![Studying](studying.jpg)
-
-
 Practice Tests
 ====================
 
@@ -40,8 +39,6 @@ After a short break and working on the questions I had got wrong in the first pr
 
 Exam
 ====================
-
-![Laptop](laptop.jpg)
 
 I wanted to take the exam with a fresh and relaxed mind. It was quite amazing that I could book the proctored exam in less than 30 mins by paying $5 USD more. This option was really helpful as I was able to start the test when I was ready on the day instead of planning my day around the offered test times. So after my coffee, run and shower, I was ready and I booked the test. There were quite a few restrictions because it was an online proctored exam.
 
