@@ -4,7 +4,7 @@ date: 2021-04-25T15:29:31+10:00
 author: Sougata Khan
 url: how-to-upload-to-aws-s3
 tags: [ "AWS", "S3", "Java", "Localstack", "Multipart" ]
-featured_image: "./how-to-upload-to-aws-s3-featured-image-rocket.jpeg"
+featured_image: "how-to-upload-to-aws-s3/how-to-upload-to-aws-s3-featured-image-rocket.jpeg"
 description: Uploading files to S3 using putObject from memory and file using Localstack and AWS. Multipart Upload and Async Multipart Upload in Part 2
 ---
 Introduction
