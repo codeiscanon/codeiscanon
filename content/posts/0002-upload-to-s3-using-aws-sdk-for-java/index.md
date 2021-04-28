@@ -4,10 +4,9 @@ date: 2021-04-25T15:29:31+10:00
 author: Sougata Khan
 url: how-to-upload-to-aws-s3
 tags: [ "AWS", "S3", "Java", "Localstack", "Multipart" ]
+featured_image: "how-to-upload-to-aws-s3-featured-image-rocket.jpeg"
 description: Uploading files to S3 using putObject from memory and file using Localstack and AWS. Multipart Upload and Async Multipart Upload in Part 2
 ---
-{{< youtube id="ADi3z_sYrlk" title="Comparison of uploading to s3" >}}
-
 Introduction
 ---------------	
 
@@ -176,6 +175,7 @@ Conclusion
 
 While Localstack is really good for developing and basic validation of your code flow. Anything beyond a few megabytes starts getting slow to test and doesn't reflect how AWS will behave in terms of performance. I ran both simple and file-backed uploads from a single [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) instance and here are the average response times of multiple iterations.
 
+{{< youtube id="ADi3z_sYrlk" title="Comparison of uploading to s3" >}}
 
 | File Size  | Simple Upload | File Upload |
 |:-----------|:--------------|:------------|
