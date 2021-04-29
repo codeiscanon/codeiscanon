@@ -19,4 +19,6 @@ images = ["images/insignificantbit-featured.webp"]
 title = "Insignificant Bit"
 
 [taxonomies]
+category = "categories"
 series = "series"
+tag = "tags"
