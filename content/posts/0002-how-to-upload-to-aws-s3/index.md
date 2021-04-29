@@ -192,4 +192,4 @@ In the next blog in the series, I will demonstrate how to efficiently upload fil
 
 ***
 
-**Update**: Part 2 is now up, feel free to continue reading this series at [Insignificant Bit - How to multipart upload to S3](https://insignificantbit.com/multipart-upload-to-s3-using-aws-sdk-for-java/)
+**Update**: Part 2 is now up, feel free to continue reading this series at [Insignificant Bit - How to multipart upload to S3](/how-to-multipart-upload-to-aws-s3/)
