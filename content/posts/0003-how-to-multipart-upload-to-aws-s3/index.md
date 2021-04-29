@@ -11,7 +11,7 @@ description: Uploading files to AWS S3 using multipart upload and async multipar
 
 ---
 
-In a previous post, I  had explored [uploading files to S3](/upload-to-s3-using-aws-sdk-for-java/) using `putObject` and its limitations. As recommended by AWS for any files larger than 100MB we should use multipart upload. There are a couple of ways to achieve this. I'll start with the simplest approach.
+In a previous post, I  had explored [uploading files to S3](/how-to-upload-to-aws-s3/) using `putObject` and its limitations. As recommended by AWS for any files larger than 100MB we should use multipart upload. There are a couple of ways to achieve this. I'll start with the simplest approach.
 
 S3 multipart upload
 ---------------
