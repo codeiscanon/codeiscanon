@@ -1,4 +1,4 @@
-{{ $w := default "100" (.Get 0) }}
+{{ $w := default "150" (.Get 0) }}
 {{ $h := default "300" (.Get 1) }}
 {{ $r := ( .Inner | chomp) }}
 {{ $id := index (seq 999 | shuffle) 1 }}
