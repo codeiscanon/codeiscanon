@@ -6,8 +6,10 @@
 <div style="width: {{ $w }}%;height: {{ $h }}px;margin: 0 auto">
     <canvas id="{{ $id }}" aria-label="This is a chart"></canvas>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js">
+</script>
 <script type="text/javascript">
+    var delayed;
     var ctx = document.getElementById('{{ $id }}').getContext('2d');
     var options = {{ $r | safeJS }};
     new Chart(ctx, options);

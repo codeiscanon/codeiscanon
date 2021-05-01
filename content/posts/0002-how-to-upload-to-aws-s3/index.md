@@ -179,25 +179,41 @@ While Localstack is really good for developing and basic validation of your code
     data: {
         labels: ['1mb', '10mb', '100mb', '500mb'],
         datasets: [{
-            label: 'Simple Upload',
-            data: [165, 658, 18902],
-            borderColor: [
-                'rgba(255, 0, 0, 1)',
-            ],
-            borderWidth: 1
-        },
-        {
-            label: 'File Upload',
-            data: [140, 400, 2000, 90000],
-            borderColor: [
-                'rgba(0, 0, 255, 0.3)',
-            ],
-            borderWidth: 1
-        }]
+                label: 'Simple Upload',
+                data: [165, 658, 18902],
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                borderColor: [
+                    'rgba(255, 0, 0, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'File Upload',
+                data: [140, 400, 2000, 90000],
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                borderColor: [
+                    'rgba(0, 0, 255, 0.3)',
+                ],
+                borderWidth: 1
+            }
+        ]
     },
     options: {
         maintainAspectRatio: false,
-       
+        animation: {
+            onComplete: () => {
+                delayed = true;
+            },
+            delay: (context) => {
+                let delay = 0;
+                if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                    delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                }
+                return delay;
+            },
+        }
     }
 }
 {{< /chart >}}
