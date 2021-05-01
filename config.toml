@@ -1,7 +1,7 @@
 baseURL = "https://insignificantbit.com/"
 languageCode = "en-us"
 title = "Insignificant Bit"
-theme = ["hugo-chart","ananke"]
+theme = ["ananke"]
 googleAnalytics = "UA-184602811-1"
 enableRobotsTXT = true
 
