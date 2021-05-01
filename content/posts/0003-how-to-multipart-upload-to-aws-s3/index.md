@@ -258,13 +258,13 @@ With these changes, the total time for data generation and upload drops signific
 Beyond this point, the only way I could improve on the performance for individual uploads was to scale the EC2 instances vertically. I have chosen EC2 Instances with higher network capacities. So here I am going from 5 → 10 → 25 → 50 gigabit network. I could upload a 100GB file in less than 7mins. However, a more in-depth cost-benefit analysis needs to be done for real-world use cases as the bigger instances are significantly more expensive. For the larger instances, CPU and memory was barely being used, but this  was the smallest instance with a 50-gigabit network that was available on AWS `ap-southeast-2` (Sydney).
 
 
-{{< chart 90 200 >}}
+{{< chart 100 500 >}}
 {
     type: 'line',
     data: {
         labels: ['1mb', '10mb', '100mb', '500mb', '1gb', '2gb', '5gb', '10gb', '50gb', '100gb'],
         datasets: [{
-                label: 'Simple Upload',
+                label: 'Simple',
                 data: [165, 658, 18902],
                 cubicInterpolationMode: 'monotone',
                 tension: 0.4,
@@ -274,7 +274,7 @@ Beyond this point, the only way I could improve on the performance for individua
                 borderWidth: 2
             },
             {
-                label: 'File Upload',
+                label: 'File',
                 data: [140, 400, 2000, 9000, 19148,	46963],
                 cubicInterpolationMode: 'monotone',
                 tension: 0.4,
@@ -284,7 +284,7 @@ Beyond this point, the only way I could improve on the performance for individua
                 borderWidth: 1
             },
             {
-                label: 'Multipart Upload',
+                label: 'Multipart',
                 data: [260, 400, 1900, 8861, 17012, 32532, 79528, 158623, 766297, 1697555],
                 cubicInterpolationMode: 'monotone',
                 tension: 0.4,
@@ -294,7 +294,7 @@ Beyond this point, the only way I could improve on the performance for individua
                 borderWidth: 1
             },
             {
-                label: 'Multipart Async Upload',
+                label: 'Async',
                 data: [270, 510, 1300, 4630, 8741, 18017, 43083, 85357, 403840, 811753],
                 cubicInterpolationMode: 'monotone',
                 tension: 0.4,
@@ -336,6 +336,8 @@ Beyond this point, the only way I could improve on the performance for individua
     }
 }
 {{< /chart >}}
+
+
 
 
 |     Name     |  Memory   |  vCPUs   |  Network   | Cost hourly |
