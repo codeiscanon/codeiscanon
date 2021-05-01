@@ -258,6 +258,86 @@ With these changes, the total time for data generation and upload drops signific
 Beyond this point, the only way I could improve on the performance for individual uploads was to scale the EC2 instances vertically. I have chosen EC2 Instances with higher network capacities. So here I am going from 5 → 10 → 25 → 50 gigabit network. I could upload a 100GB file in less than 7mins. However, a more in-depth cost-benefit analysis needs to be done for real-world use cases as the bigger instances are significantly more expensive. For the larger instances, CPU and memory was barely being used, but this  was the smallest instance with a 50-gigabit network that was available on AWS `ap-southeast-2` (Sydney).
 
 
+{{< chart 90 200 >}}
+{
+    type: 'line',
+    data: {
+        labels: ['1mb', '10mb', '100mb', '500mb', '1gb', '2gb', '5gb', '10gb', '50gb', '100gb'],
+        datasets: [{
+                label: 'Simple Upload',
+                data: [165, 658, 18902],
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                ],
+                borderWidth: 2
+            },
+            {
+                label: 'File Upload',
+                data: [140, 400, 2000, 9000, 19148,	46963],
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Multipart Upload',
+                data: [260, 400, 1900, 8861, 17012, 32532, 79528, 158623, 766297, 1697555],
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                borderColor: [
+                    'rgb(255, 205, 86)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Multipart Async Upload',
+                data: [270, 510, 1300, 4630, 8741, 18017, 43083, 85357, 403840, 811753],
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                borderColor: [
+                    'rgb(54, 162, 235)',
+                ],
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        maintainAspectRatio: false,
+        animation: {
+            onComplete: () => {
+                delayed = true;
+            },
+            delay: (context) => {
+                let delay = 0;
+                if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                    delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                }
+                return delay;
+            },
+        },
+        scales: {
+        yAxes: [{ 
+          scaleLabel: {
+            display: true,
+            labelString: "File Size"
+          }
+        }],
+        xAxes: [{ 
+          scaleLabel: {
+            display: true,
+            labelString: "Time"
+          }
+        }]
+      }
+    }
+}
+{{< /chart >}}
+
+
 |     Name     |  Memory   |  vCPUs   |  Network   | Cost hourly |
 |:-------------|:----------|:---------|:-----------|:------------|
 | t3.medium    | 4.0 GiB   | 2 vCPUs  | 5 Gigabit  | $0.0528     |
