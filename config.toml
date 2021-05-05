@@ -17,6 +17,7 @@ read_more_copy = "Continue reading on insignificantbit.com"
 featured_image = "images/insignificantbit-featured.webp"
 images = ["images/insignificantbit-featured.webp"]
 title = "Insignificant Bit"
+commentoEnable = true
 
 [taxonomies]
 category = "categories"
