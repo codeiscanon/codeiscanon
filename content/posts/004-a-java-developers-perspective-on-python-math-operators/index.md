@@ -43,16 +43,16 @@ And then there's '//' for floor division. Java doesn't have a specific operator 
 
 Next up, we've got the modulo operator '%'. Remember how it returns the remainder of the division in Java? Works the same way in Python, no surprises there.
 
-And let's not forget Python doesn't have '++' and '--'. If you want to increase or decrease a variable by 1, you'd have to do 'variable += 1' or 'variable -= 1'. A bit different, but still straightforward enough.
+And let's not forget Python doesn't have '++' and '\-\-'. If you want to increase or decrease a variable by 1, you'd have to do 'variable += 1' or 'variable -= 1'. A bit different, but still straightforward enough.
 
 Here's a neat little cheatsheet for your reference:
 
-| Java                 | Python  | Description                                                           |
-|----------------------|---------|-----------------------------------------------------------------------|
-| ++x                  | x += 1  | Increment the value of `x` by 1.                                      |
-| --x                  | x -= 1  | Decrement the value of `x` by 1.                                      |
-| Math.pow(2, 3)       | 2 ** 3  | Calculate 2 raised to the power of 3.                                 |
-| Math.floorDiv(10,3)  | 10 // 3 | Divide 10 by 3 and return the floor of the result (integer division). |
+| Java                | Python  | Description                                                           |
+|---------------------|---------|-----------------------------------------------------------------------|
+| ++x                 | x += 1  | Increment the value of `x` by 1.                                      |
+| \-\-x               | x -= 1  | Decrement the value of `x` by 1.                                      |
+| Math.pow(2, 3)      | 2 ** 3  | Calculate 2 raised to the power of 3.                                 |
+| Math.floorDiv(10,3) | 10 // 3 | Divide 10 by 3 and return the floor of the result (integer division). |
 
 Why not take a break and try these operators out in your Python console? 
 
@@ -64,7 +64,7 @@ The first obvious difference is the '**' operator in Python. Unlike in Java, whe
 
 Next up, the floor division operator '//' in Python. It rounds the result of the division down to the nearest whole number. In Java, this is done by calling Math.floorDiv(a,b) which I haven't really used much.
 
-And remember the increment '++' and decrement '--' operators in Java? Python doesn’t have them. Instead, Python uses '+= 1' for incrementing and '-= 1' for decrementing. It's a bit different, but don't worry, it won't take long to get used to it.
+And remember the increment '++' and decrement '\-\-' operators in Java? Python doesn’t have them. Instead, Python uses '+= 1' for incrementing and '-= 1' for decrementing. It's a bit different, but don't worry, it won't take long to get used to it.
 
 Lastly, while not strictly a math operator, string concatenation using '+' deserves a mention. Both Python and Java use '+' for this, but the way they handle numbers and strings together is a bit different. We'll delve more into this later.
 
@@ -92,7 +92,7 @@ Last but not least, we're taking a look at string concatenation using the + oper
 together, and how Java and Python handle this can be quite different.
 
 
-As we wrap up today's exploration, let's take a moment to reflect. We've learnt how Python and Java, while seemingly similar, have their unique quirks when it comes to math operators. From Python's easy-to-use exponentiation operator and floor division to its absence of '++' and '--' and the need to manually convert numbers to strings, it's clear that Python has its own character and charm.
+As we wrap up today's exploration, let's take a moment to reflect. We've learnt how Python and Java, while seemingly similar, have their unique quirks when it comes to math operators. From Python's easy-to-use exponentiation operator and floor division to its absence of '++' and '\-\-' and the need to manually convert numbers to strings, it's clear that Python has its own character and charm.
 
 Remember, learning a new language is never about forgetting the old, it's about broadening our horizons. The differences we've explored today aren't here to confuse us, but to help us appreciate the diversity of coding languages.
 
