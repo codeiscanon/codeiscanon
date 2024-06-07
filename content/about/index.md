@@ -7,4 +7,3 @@ featured_image: ''
 
 Sougata is a Software Engineering Consultant with over 10 years of experience in delivering delightful solutions for all stakeholders. He has experience in Java, AWS, Kafka and various other backend technologies. In his free times Sougata blogs about his learnings and experiences. 
 
-{{< figure target="_blank" link="https://directory.indibloghub.com/technology-blogs" src="https://indibloghub.com/public/images/badges/TopTechBlogs.jpg" alt="tech blogs india"  >}}

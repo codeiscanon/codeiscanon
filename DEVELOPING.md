@@ -1,4 +1,4 @@
-git clone https://github.com/sougat818/insignificantbit.git
+git clone https://github.com/codeiscanon/codeiscanon.git
 git submodule init
 git submodule update --remote
 cd themes/ananke
