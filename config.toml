@@ -9,6 +9,7 @@ enableRobotsTXT = true
 changefreq = "weekly"
 filename = "sitemap.xml"
 priority = 0.5
+disableKinds = ["taxonomy", "taxonomyTerm"]
 
 [params]
 favicon = "insignificantbit.svg"  
